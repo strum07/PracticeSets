@@ -10,15 +10,13 @@ public class DegreeOfAnArray {
     public static void main(String[] args) {
 
         ArrayList<Integer> demo = new ArrayList<>();
+        ArrayList<Integer> anotherDemo = new ArrayList<>();
 
         demo.add(1);
         demo.add(2);
         demo.add(2);
         demo.add(3);
         demo.add(1);
-
-
-        ArrayList<Integer> anotherDemo = new ArrayList<>();
 
         anotherDemo.add(1);
         anotherDemo.add(2);
@@ -29,11 +27,12 @@ public class DegreeOfAnArray {
         anotherDemo.add(2);
 
         int a = findDegreeOfShortestSubArray(demo);
-
         int b = findDegreeOfShortestSubArray(anotherDemo);
 
         System.out.println(demo);
         System.out.println(a);
+
+        System.out.println();
 
         System.out.println(anotherDemo);
         System.out.println(b);
@@ -44,20 +43,18 @@ public class DegreeOfAnArray {
 
 
     private static int findDegreeOfShortestSubArray(ArrayList<Integer> input){
+
         Map<Integer,Integer> rightIndex = new HashMap<>();
         Map<Integer,Integer> leftIndex = new HashMap<>();
         Map<Integer,Integer> count = new HashMap<>();
 
         int sizeOfShortestSubArray=0;
 
-
-        System.out.println(input);
-
         for(int index=0; index<input.size();index++){
             //extract the number
             int number = input.get(index);
             //only if left index for the number is not set; set it
-            if (leftIndex.get(number) == null) leftIndex.put(number, index);
+            leftIndex.putIfAbsent(number, index);
             //set right index to current index
             rightIndex.put(number,index);
             //increment count of occurrences + 1; if its not found ; its just 1
@@ -68,15 +65,10 @@ public class DegreeOfAnArray {
 
             for(int x: count.keySet()){
                 if(count.get(x)==degree){
-                    System.out.println(sizeOfShortestSubArray);
                     sizeOfShortestSubArray = Math.min(sizeOfShortestSubArray,(rightIndex.get(x)-leftIndex.get(x))+1);
                 }
             }
-
         }
         return sizeOfShortestSubArray;
     }
-
-
-
 }
