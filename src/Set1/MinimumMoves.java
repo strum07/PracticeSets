@@ -6,7 +6,6 @@ public class MinimumMoves {
 
     public static void main(String[] args) {
 
-
         ArrayList<Integer> Andrea = new ArrayList<>();
         ArrayList<Integer> Maria = new ArrayList<>();
 
@@ -16,15 +15,12 @@ public class MinimumMoves {
         Maria.add(2345);
         Maria.add(3214);
 
-
         int moveCount = findMoves(Andrea,Maria);
 
         System.out.print(moveCount);
     }
 
     private static int findMinimumMoves(ArrayList<Integer> andrea, ArrayList<Integer> maria) {
-
-
         int minCount = 0;
 
         for (int index =0; index<andrea.size(); index++) {
@@ -33,9 +29,7 @@ public class MinimumMoves {
             int m1 = maria.get(index);
 
             while (a1 > 0) {
-
                 //Pop "Units" from the number
-
                 int a = a1 % 10;
                 int m = m1 % 10;
 
@@ -43,7 +37,6 @@ public class MinimumMoves {
                     m += 1;
                     minCount += 1;
                 }
-
                 while (a < m) {
                     m -= 1;
                     minCount += 1;
@@ -53,15 +46,12 @@ public class MinimumMoves {
                 m1 = m1 / 10;
             }
         }
-
         return minCount;
-
     }
 
 
 
     public static int findMoves(ArrayList<Integer> andrea, ArrayList<Integer> maria) {
-
         int minCount = 0;
 
         for (int index =0; index<andrea.size(); index++) {
