@@ -4,11 +4,18 @@ package ProjectEuler;
 //  1, 2, 3, 5, 8, 13, 21, 34, 55, 89, ...
 // By considering the terms in the Fibonacci sequence whose values do not exceed four million, find the sum of the even-valued terms.
 
+import java.util.HashMap;
+
 public class Problem2 {
 
     public static void main(String[] args){
-        int n = 1;
-        System.out.println(fib(n));
+        int n = 10;
+
+        System.out.println(memoFib(1000));
+
+        //System.out.println(fibSum(4000000));
+
+        //System.out.println(fibEvenSum(4000000));
     }
 
     public static int fib(int n) {
@@ -16,4 +23,45 @@ public class Problem2 {
                 return n;
             return fib(n-1) + fib(n-2);
     }
+
+
+    public static int memoFib(int n) {
+        HashMap<Integer,Integer> memo = new HashMap<>();
+
+        if(memo.containsKey(n)){
+            return memo.get(n);
+        }
+        else{
+            if (n <= 1){
+                memo.put(n,n);
+                return n;
+            }
+            memo.put(((n-1)+(n-2)),memoFib(n-1) + memoFib(n-2));
+            return memoFib(n-1) + memoFib(n-2);
+        }
+    }
+
+
+    public static int fibSum(int n){
+        int sum = 0;
+
+        for(int i=0;i<n;i++){
+            sum = sum + memoFib(i);
+        }
+        return sum;
+    }
+
+
+    public static int fibEvenSum(int n){
+        int evenSum = 0;
+        for(int i=0;i<n;i++){
+            if(memoFib(i)%2==0) {
+                evenSum = evenSum + memoFib(i);
+            }
+        }
+        return evenSum;
+    }
+
+
+
 }
