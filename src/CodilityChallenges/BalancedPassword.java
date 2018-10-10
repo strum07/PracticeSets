@@ -47,68 +47,68 @@ public class BalancedPassword {
 
         int maxLength = 0;
 
-        LinkedList<Character> charBuffer = new LinkedList<>();
+        LinkedList<Character> characterBuffer = new LinkedList<>();
 
-        HashMap<Character,Integer> countofCharacters = new HashMap<>();
+        HashMap<Character,Integer> characterCount = new HashMap<>();
 
         for(int i=0;i<string.length();i++){
 
             //if the buffer size is empty OR
             //if the buffer size is less than 2
-            if(charBuffer.size()<2){
+            if(characterBuffer.size()<2){
 
                 //if this character is not present
-                if(!charBuffer.contains(string.charAt(i))){
+                if(!characterBuffer.contains(string.charAt(i))){
 
                     //add character to buffer
-                    charBuffer.add(string.charAt(i));
+                    characterBuffer.add(string.charAt(i));
                 }
             }
             //if the buffer size is equal to 2 or more
             else{
 
                 //if this character is not present
-                if(!charBuffer.contains(string.charAt(i))){
+                if(!characterBuffer.contains(string.charAt(i))){
 
                     //clear contents of the list
-                    charBuffer.clear();
+                    characterBuffer.clear();
 
                     //add previous character - to tail by default - becomes new head
-                    charBuffer.add(string.charAt(i-1));
+                    characterBuffer.add(string.charAt(i-1));
 
                     //add new character to list - to tail by default
-                    charBuffer.add(string.charAt(i));
+                    characterBuffer.add(string.charAt(i));
 
                     //Clear contents of count
-                    countofCharacters.clear();
+                    characterCount.clear();
 
                     //reinitialize count of previous character to 1
-                    countofCharacters.put(string.charAt(i-1),1);
+                    characterCount.put(string.charAt(i-1),1);
                 }
             }
 
             //increment count of current character
-            countofCharacters.put(string.charAt(i),countofCharacters.getOrDefault(string.charAt(i),0)+1);
+            characterCount.put(string.charAt(i),characterCount.getOrDefault(string.charAt(i),0)+1);
 
             //check the current state of affairs - use the buffer and count of characters to see if we have a new maxlength substring each iteration
-            if(lengthIfBalanced(charBuffer,countofCharacters)>maxLength){
+            if(lengthIfBalanced(characterBuffer,characterCount)>maxLength){
 
                 //if found, set max length to newly found/formed substring
-                maxLength = lengthIfBalanced(charBuffer,countofCharacters);
+                maxLength = lengthIfBalanced(characterBuffer,characterCount);
             }
         }
         return maxLength;
     }
 
-    private static int lengthIfBalanced(LinkedList<Character> characterBuffer, HashMap<Character, Integer> countofCharacters) {
+    private static int lengthIfBalanced(LinkedList<Character> characterBuffer, HashMap<Character, Integer> characterCount) {
         int length = 0;
 
         if(characterBuffer.size()==2){
             Character a = characterBuffer.getFirst();
             Character b = characterBuffer.getLast();
 
-            Integer countA = countofCharacters.get(a);
-            Integer countB = countofCharacters.get(b);
+            Integer countA = characterCount.get(a);
+            Integer countB = characterCount.get(b);
 
             if(countA.equals(countB)){
                 length = countA+countB;
