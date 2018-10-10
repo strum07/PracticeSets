@@ -1,41 +1,5 @@
 package CodilityChallenges;
 
-//until new character is encountered -
-//increment count of the characters in the buffer
-//store their startindex and end index
-
-//as soon as you encounter a new character
-//check if the counts of the two chars in the buffer match
-//if they do (check if the length of substring (min(countofoccurences)*2) against previously stored value of current previous Maxlength and store tt there
-
-//start index = last index
-//last index = current index
-
-//chars in buffer = char in startindex and char in currentIndex
-
-//trick is to store all balanced substrings as you see them
-//if not the substrings
-//atleast the length of the substrings
-//is it balanced after every iteration in the sliding window
-
-//previous substring length = 0
-//current substring = length = 0
-
-//cabbacc
-//a
-// Get the first character
-// Remember it and increment count
-
-//b
-// get the next character
-// remember it and increment its count
-
-//c
-//We have not seen this char before
-//remember it and increment the count
-//store the first index as
-
-
 //A string is balanced if it consists of exactly two different characters and both of those characters appear exactly the same number of times. For example: "aabbab" is balanced (both 'a' and 'b' occur three times) but "aabba" is not balanced ('a' occurs three times, 'b' occurs two times). String "aabbcc" is also not balanced (it contains three different letters).
 
 //A substring of string S is a string that consists of consecutive letters in S. For example: "ompu" is a substring of "computer" but "cmptr" is not.
@@ -55,8 +19,6 @@ package CodilityChallenges;
 //N is an integer within the range [1..100,000];
 //string S consists only of lowercase letters (a−z).
 
-
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
 
@@ -68,11 +30,15 @@ public class BalancedPassword {
         String S2 = "abababa";
         String S3 = "aaaaaaa";
         String S4 = "BAAAB";
+        String S5 = "aabbcc";
+        String S6 = "aabbab";
 
         System.out.println(longestBalancedPasswordLength(S1));
         System.out.println(longestBalancedPasswordLength(S2));
         System.out.println(longestBalancedPasswordLength(S3));
         System.out.println(longestBalancedPasswordLength(S4));
+        System.out.println(longestBalancedPasswordLength(S5));
+        System.out.println(longestBalancedPasswordLength(S6));
     }
 
     public static int longestBalancedPasswordLength(String S){
@@ -90,6 +56,7 @@ public class BalancedPassword {
         startIndex.put(string.charAt(0),0);
 
         for(int i=0;i<string.length();i++){
+
             //if the buffer size is empty OR
             //if the buffer size is less than 2
             if(charBuffer.size()<2){
@@ -101,6 +68,7 @@ public class BalancedPassword {
             }
             //if the buffer size is equal to 2 or more
             else{
+
                 //if this character is not present
                 if(!charBuffer.contains(string.charAt(i))){
 
@@ -117,6 +85,7 @@ public class BalancedPassword {
                     countofCharacters.put(string.charAt(i-1),1);
                 }
             }
+
             //set end to current character
             endIndex.put(string.charAt(i),i);
 
@@ -125,7 +94,7 @@ public class BalancedPassword {
 
             //check the current state of affairs - use the buffer and count of characters to see if we have a new maxlength substring each iteration
             if(lengthIfBalanced(charBuffer,countofCharacters)>maxLength){
-                //if found, set maxlength to newly found/formed substring
+                //if found, set max length to newly found/formed substring
                 maxLength = lengthIfBalanced(charBuffer,countofCharacters);
             }
         }
