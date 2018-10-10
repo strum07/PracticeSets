@@ -48,21 +48,18 @@ public class BalancedPassword {
         int maxLength = 0;
 
         LinkedList<Character> charBuffer = new LinkedList<>();
+
         HashMap<Character,Integer> countofCharacters = new HashMap<>();
-
-
-        //HashMap<Character,Integer> startIndex = new HashMap<>();
-        //HashMap<Character,Integer> endIndex = new HashMap<>();
-        //initialize the start index
-        //startIndex.put(string.charAt(0),0);
 
         for(int i=0;i<string.length();i++){
 
             //if the buffer size is empty OR
             //if the buffer size is less than 2
             if(charBuffer.size()<2){
+
                 //if this character is not present
                 if(!charBuffer.contains(string.charAt(i))){
+
                     //add character to buffer
                     charBuffer.add(string.charAt(i));
                 }
@@ -73,7 +70,7 @@ public class BalancedPassword {
                 //if this character is not present
                 if(!charBuffer.contains(string.charAt(i))){
 
-                    //remove head
+                    //clear contents of the list
                     charBuffer.clear();
 
                     //add previous character - to tail by default - becomes new head
@@ -82,24 +79,20 @@ public class BalancedPassword {
                     //add new character to list - to tail by default
                     charBuffer.add(string.charAt(i));
 
-                    //initialize start to previous character
-                    //startIndex.put(string.charAt(i-1),i-1);
-
                     //Clear contents of count
                     countofCharacters.clear();
+
                     //reinitialize count of previous character to 1
                     countofCharacters.put(string.charAt(i-1),1);
                 }
             }
-
-            //set end to current character
-            //endIndex.put(string.charAt(i),i);
 
             //increment count of current character
             countofCharacters.put(string.charAt(i),countofCharacters.getOrDefault(string.charAt(i),0)+1);
 
             //check the current state of affairs - use the buffer and count of characters to see if we have a new maxlength substring each iteration
             if(lengthIfBalanced(charBuffer,countofCharacters)>maxLength){
+
                 //if found, set max length to newly found/formed substring
                 maxLength = lengthIfBalanced(charBuffer,countofCharacters);
             }
