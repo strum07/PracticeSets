@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.Stack;
 
@@ -6,7 +7,7 @@ import static java.nio.file.Files.size;
 public class Main {
 
     public static void main(String[] args) {
-        System.out.println("Hello World!");
+       /* System.out.println("Hello World!");
 
 
         int a = 123 % 10;
@@ -29,6 +30,7 @@ public class Main {
         }
         System.out.println("Reverse of input number is: "+reversenum);
 
+        */
 
     }
 }

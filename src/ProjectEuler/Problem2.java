@@ -11,7 +11,9 @@ public class Problem2 {
     public static void main(String[] args){
         int n = 10;
 
-        System.out.println(memoFib(1000));
+        HashMap<Integer,Integer> memo = new HashMap<>();
+
+        System.out.println(fibEvenSum(10,memo));
 
         //System.out.println(fibSum(4000000));
 
@@ -25,9 +27,7 @@ public class Problem2 {
     }
 
 
-    public static int memoFib(int n) {
-        HashMap<Integer,Integer> memo = new HashMap<>();
-
+    public static int memoFib(int n ,HashMap<Integer,Integer> memo) {
         if(memo.containsKey(n)){
             return memo.get(n);
         }
@@ -36,27 +36,29 @@ public class Problem2 {
                 memo.put(n,n);
                 return n;
             }
-            memo.put(((n-1)+(n-2)),memoFib(n-1) + memoFib(n-2));
-            return memoFib(n-1) + memoFib(n-2);
+            memo.put(memoFib(n-1,memo) + memoFib(n-2,memo),memoFib(n-1,memo) + memoFib(n-2,memo));
+            return memoFib(n-1,memo) + memoFib(n-2,memo);
         }
     }
 
 
-    public static int fibSum(int n){
+    public static int fibSum(int n,HashMap<Integer,Integer> memo){
         int sum = 0;
 
         for(int i=0;i<n;i++){
-            sum = sum + memoFib(i);
+            sum = sum + memoFib(i,memo);
         }
         return sum;
     }
 
 
-    public static int fibEvenSum(int n){
+    public static int fibEvenSum(int n,HashMap<Integer,Integer> memo){
         int evenSum = 0;
         for(int i=0;i<n;i++){
-            if(memoFib(i)%2==0) {
-                evenSum = evenSum + memoFib(i);
+            if(memoFib(i,memo)%2==0) {
+                int m = memoFib(i,memo);
+                System.out.println(m);
+                evenSum = evenSum + m;
             }
         }
         return evenSum;

@@ -1,16 +1,12 @@
 package CodilityChallenges;
 
-
 //until new character is encountered -
 //increment count of the characters in the buffer
 //store their startindex and end index
 
-
-
 //as soon as you encounter a new character
 //check if the counts of the two chars in the buffer match
 //if they do (check if the length of substring (min(countofoccurences)*2) against previously stored value of current previous Maxlength and store tt there
-
 
 //start index = last index
 //last index = current index
@@ -62,52 +58,63 @@ package CodilityChallenges;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedList;
 
 public class BalancedPassword {
 
     public static void main(String[] args) {
 
         String S1 = "cabbacc";
+        //String S1 = "ababababababababababababababababababababababababababababababababababababa";
         String S2 = "abababa";
         String S3 = "aaaaaaa";
-        String S4 = "baaab";
+        String S4 = "BAAAB";
 
         System.out.println(longestBalancedPasswordLength(S1));
         System.out.println(longestBalancedPasswordLength(S2));
         System.out.println(longestBalancedPasswordLength(S3));
         System.out.println(longestBalancedPasswordLength(S4));
-
     }
 
-    public static int longestBalancedPasswordLength(String string){
+    public static int longestBalancedPasswordLength(String S){
 
+        StringBuilder string = new StringBuilder(S.toLowerCase());
         int maxLength = 0;
 
         ArrayList<Character> characterBuffer = new ArrayList<>(2);
 
+        LinkedList<Character> charBuffer = new LinkedList<Character>();
+
         HashMap<Character,Integer> countofCharacters = new HashMap<>();
         HashMap<Character,Integer> startIndex = new HashMap<>();
+        HashMap<Character,Integer> endIndex = new HashMap<>();
 
         //initialize the start index
         startIndex.put(string.charAt(0),0);
 
-        HashMap<Character,Integer> endIndex = new HashMap<>();
-
-
         for(int i=0;i<string.length();i++){
-            if(characterBuffer.size()<3){
+            //if the buffer size is empty
+            //if the buffer size is less than 2
+            //if the buffer size is equal to 2 or more
+
+            if(characterBuffer.size()<2){
                 if(!characterBuffer.contains(string.charAt(i))){
                     characterBuffer.add(string.charAt(i));
+                    charBuffer.add(string.charAt(i));
                 }
             }
             else{
                 //REMOVE HEAD
+                charBuffer.removeFirst();
                 characterBuffer.remove(0);
+                //added this
+                //characterBuffer.add(string.charAt(i));
+
                 startIndex.put(string.charAt(i-1),i-1);
             }
+
             endIndex.put(string.charAt(i),i);
             countofCharacters.put(string.charAt(i),countofCharacters.getOrDefault(string.charAt(i),0)+1);
-
             if(lengthIfBalanced(characterBuffer,countofCharacters)>maxLength){
                 maxLength = lengthIfBalanced(characterBuffer,countofCharacters);
             }
@@ -117,7 +124,6 @@ public class BalancedPassword {
 
     private static int lengthIfBalanced(ArrayList<Character> characterBuffer, HashMap<Character, Integer> countofCharacters) {
         int length = 0;
-
         if(characterBuffer.size()==2){
             Character a = characterBuffer.get(0);
             Character b = characterBuffer.get(1);
@@ -127,8 +133,6 @@ public class BalancedPassword {
                 length = countA+countB;
             }
         }
-
         return length;
     }
-
 }
