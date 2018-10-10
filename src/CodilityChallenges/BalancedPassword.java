@@ -65,7 +65,6 @@ public class BalancedPassword {
     public static void main(String[] args) {
 
         String S1 = "cabbacc";
-        //String S1 = "ababababababababababababababababababababababababababababababababababababa";
         String S2 = "abababa";
         String S3 = "aaaaaaa";
         String S4 = "BAAAB";
@@ -79,12 +78,10 @@ public class BalancedPassword {
     public static int longestBalancedPasswordLength(String S){
 
         StringBuilder string = new StringBuilder(S.toLowerCase());
+
         int maxLength = 0;
 
-        ArrayList<Character> characterBuffer = new ArrayList<>(2);
-
-        LinkedList<Character> charBuffer = new LinkedList<Character>();
-
+        LinkedList<Character> charBuffer = new LinkedList<>();
         HashMap<Character,Integer> countofCharacters = new HashMap<>();
         HashMap<Character,Integer> startIndex = new HashMap<>();
         HashMap<Character,Integer> endIndex = new HashMap<>();
@@ -93,42 +90,57 @@ public class BalancedPassword {
         startIndex.put(string.charAt(0),0);
 
         for(int i=0;i<string.length();i++){
-            //if the buffer size is empty
+            //if the buffer size is empty OR
             //if the buffer size is less than 2
-            //if the buffer size is equal to 2 or more
-
-            if(characterBuffer.size()<2){
-                if(!characterBuffer.contains(string.charAt(i))){
-                    characterBuffer.add(string.charAt(i));
+            if(charBuffer.size()<2){
+                //if this character is not present
+                if(!charBuffer.contains(string.charAt(i))){
+                    //add character to buffer
                     charBuffer.add(string.charAt(i));
                 }
             }
+            //if the buffer size is equal to 2 or more
             else{
-                //REMOVE HEAD
-                charBuffer.removeFirst();
-                characterBuffer.remove(0);
-                //added this
-                //characterBuffer.add(string.charAt(i));
+                //if this character is not present
+                if(!charBuffer.contains(string.charAt(i))){
 
-                startIndex.put(string.charAt(i-1),i-1);
+                    //remove head
+                    charBuffer.removeFirst();
+
+                    //add new character to list - to tail by default
+                    charBuffer.add(string.charAt(i));
+
+                    //initialize start to previous character
+                    startIndex.put(string.charAt(i-1),i-1);
+
+                    //reinitialize count of previous character to 1
+                    countofCharacters.put(string.charAt(i-1),1);
+                }
             }
-
+            //set end to current character
             endIndex.put(string.charAt(i),i);
+
+            //increment count of current character
             countofCharacters.put(string.charAt(i),countofCharacters.getOrDefault(string.charAt(i),0)+1);
-            if(lengthIfBalanced(characterBuffer,countofCharacters)>maxLength){
-                maxLength = lengthIfBalanced(characterBuffer,countofCharacters);
+
+            //check the current state of affairs - use the buffer and count of characters to see if we have a new maxlength substring each iteration
+            if(lengthIfBalanced(charBuffer,countofCharacters)>maxLength){
+                //if found, set maxlength to newly found/formed substring
+                maxLength = lengthIfBalanced(charBuffer,countofCharacters);
             }
         }
         return maxLength;
     }
 
-    private static int lengthIfBalanced(ArrayList<Character> characterBuffer, HashMap<Character, Integer> countofCharacters) {
+    private static int lengthIfBalanced(LinkedList<Character> characterBuffer, HashMap<Character, Integer> countofCharacters) {
         int length = 0;
+
         if(characterBuffer.size()==2){
-            Character a = characterBuffer.get(0);
-            Character b = characterBuffer.get(1);
+            Character a = characterBuffer.getFirst();
+            Character b = characterBuffer.getLast();
             Integer countA = countofCharacters.get(a);
             Integer countB = countofCharacters.get(b);
+
             if(countA.equals(countB)){
                 length = countA+countB;
             }
