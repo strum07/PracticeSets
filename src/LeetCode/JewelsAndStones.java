@@ -1,12 +1,12 @@
 package LeetCode;
 
-//Date: 11th October 2018
+// Date: 11th October 2018
 
-//Programmer: Sagar Sudhakar
+// Programmer: Sagar Sudhakar
 
 // Difficulty: Easy
 
-// 771. Jewels and
+// 771. Jewels and Stones
 
 // https://leetcode.com/problems/jewels-and-stones/description/
 
