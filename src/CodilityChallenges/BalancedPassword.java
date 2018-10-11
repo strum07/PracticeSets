@@ -72,7 +72,7 @@ public class BalancedPassword {
                     characterBuffer.add(string.charAt(i));
                 }
             }
-            //if the buffer size is equal to 2 or more
+            //if the buffer size is equal to 2 (never will it be more than 2 as we clear the contents when it = 2 and character is not present)
             else{
 
                 //if this character is not present
@@ -111,8 +111,9 @@ public class BalancedPassword {
     private static int lengthIfBalanced(LinkedList<Character> characterBuffer, HashMap<Character, Integer> characterCount) {
         int length = 0;
         
-        //As per problem description, A string is balanced if its constituents are made up of two characters that have equal occurances
+        //As per problem description, A string is balanced if its constituents are made up of two characters that have equal occurrences
         if(characterBuffer.size()==2){
+
             //extract the two chars in the buffer
             Character a = characterBuffer.getFirst();   
             Character b = characterBuffer.getLast();
@@ -124,7 +125,7 @@ public class BalancedPassword {
             //check if their counts are equal - as its the second condition of being a balanced substring
             if(countA.equals(countB)){
                 
-                //intialize length to the number of occurances - (2*occurances of char a(or b))
+                //initialize length to the number of occurrences - (2*occurrences of char a(or b))
                 length = countA+countB;
             }
         }
