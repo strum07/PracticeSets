@@ -52,7 +52,7 @@ public class BalancedPassword {
 
     private static int longestBalancedPasswordLength(String S){
         
-        StringBuilder string = new StringBuilder(S.toLowerCase());
+        String inputString = S.toLowerCase();
 
         int maxLength = 0;
 
@@ -60,36 +60,36 @@ public class BalancedPassword {
 
         HashMap<Character,Integer> characterCount = new HashMap<>();
 
-        for(int currentIndex=0;currentIndex<string.length();currentIndex++){
+        for(int currentIndex=0;currentIndex<inputString.length();currentIndex++){
 
             if(bufferNotFull(characterBuffer)){
 
                 // If this character is not present
-                if(!characterBuffer.contains(string.charAt(currentIndex))){
+                if(!characterBuffer.contains(inputString.charAt(currentIndex))){
                     // Add character to buffer
-                    characterBuffer.add(string.charAt(currentIndex));
+                    characterBuffer.add(inputString.charAt(currentIndex));
                 }
             }
             // If the buffer size is equal to 2 (never will it be more than 2 as we clear the contents when it = 2 and character is not present)
             else{
 
                 // If this character is not present
-                if(!characterBuffer.contains(string.charAt(currentIndex))){
+                if(!characterBuffer.contains(inputString.charAt(currentIndex))){
 
                     // Clear contents of the list
                     characterBuffer.clear();
 
                     // Add previous character - to tail by default - becomes current head
-                    characterBuffer.add(string.charAt(previousCharTo(currentIndex)));
+                    characterBuffer.add(inputString.charAt(previousCharTo(currentIndex)));
 
                     // Add new character to list - to tail by default - current tail
-                    characterBuffer.add(string.charAt(currentIndex));
+                    characterBuffer.add(inputString.charAt(currentIndex));
 
                     // Clear contents of count
                     characterCount.clear();
 
                     // Reinitialize count of previous character to 1
-                    characterCount.put(string.charAt(previousCharTo(currentIndex)),1);
+                    characterCount.put(inputString.charAt(previousCharTo(currentIndex)),1);
                 }
             }
 
@@ -97,7 +97,7 @@ public class BalancedPassword {
             // As we want to increment count of the character in the current index and also check if the new substring under observation is of maxlength
 
             // Increment count of current character
-            characterCount.put(string.charAt(currentIndex),characterCount.getOrDefault(string.charAt(currentIndex),0)+1);
+            characterCount.put(inputString.charAt(currentIndex),characterCount.getOrDefault(inputString.charAt(currentIndex),0)+1);
 
             // Check the current state of affairs - use the buffer and count of characters to see if we have a new maxlength substring each iteration
             // If found, set max length to newly found/formed substring
