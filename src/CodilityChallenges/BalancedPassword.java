@@ -1,6 +1,13 @@
 package CodilityChallenges;
+//Date: 10th October 2018
 
-//A string is balanced if it consists of exactly two different characters and both of those characters appear exactly the same number of times. For example: "aabbab" is balanced (both 'a' and 'b' occur three times) but "aabba" is not balanced ('a' occurs three times, 'b' occurs two times). String "aabbcc" is also not balanced (it contains three different letters).
+//Programmer: Sagar Sudhakar
+
+//A string is balanced if it consists of exactly two different characters and both of those characters appear exactly the same number of times. 
+
+//For example: "aabbab" is balanced (both 'a' and 'b' occur three times) but "aabba" is not balanced ('a' occurs three times, 'b' occurs two times). 
+
+//String "aabbcc" is also not balanced (it contains three different letters).
 
 //A substring of string S is a string that consists of consecutive letters in S. For example: "ompu" is a substring of "computer" but "cmptr" is not.
 
@@ -16,7 +23,8 @@ package CodilityChallenges;
 
 //Write an efficient algorithm for the following assumptions:
 
-//N is an integer within the range [1..100,000];
+//N is an integer within the range [1..100,000]; - Never understood what 'N' is!
+
 //string S consists only of lowercase letters (a−z).
 
 import java.util.HashMap;
@@ -42,7 +50,7 @@ public class BalancedPassword {
     }
 
     private static int longestBalancedPasswordLength(String S){
-
+        
         StringBuilder string = new StringBuilder(S.toLowerCase());
 
         int maxLength = 0;
@@ -102,18 +110,25 @@ public class BalancedPassword {
 
     private static int lengthIfBalanced(LinkedList<Character> characterBuffer, HashMap<Character, Integer> characterCount) {
         int length = 0;
-
+        
+        //As per problem description, A string is balanced if its constituents are made up of two characters that have equal occurances
         if(characterBuffer.size()==2){
-            Character a = characterBuffer.getFirst();
+            //extract the two chars in the buffer
+            Character a = characterBuffer.getFirst();   
             Character b = characterBuffer.getLast();
-
+            
+            //Using the extracted chars - get the number of times they occur in the present substring
             Integer countA = characterCount.get(a);
             Integer countB = characterCount.get(b);
-
+            
+            //check if their counts are equal - as its the second condition of being a balanced substring
             if(countA.equals(countB)){
+                
+                //intialize length to the number of occurances - (2*occurances of char a(or b))
                 length = countA+countB;
             }
         }
+        //nothing special here - return it
         return length;
     }
 }
