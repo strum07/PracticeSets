@@ -106,15 +106,15 @@ public class BalancedPassword {
         return maxLength;
     }
 
-    private static int previousCharTo(int currentIndex) {
-        // Might be an overkill - But readable now and eliminating magic numbers
-        return currentIndex-1;
-    }
-
     private static boolean bufferNotFull(LinkedList<Character> characterBuffer) {
         // If the buffer size is empty OR
         // If the buffer size is less than 2.
         return characterBuffer.size()<2;
+    }
+
+    private static int previousCharTo(int currentIndex) {
+        // Might be an overkill - But readable now and eliminating magic numbers
+        return currentIndex-1;
     }
 
     private static int lengthIfBalanced(LinkedList<Character> characterBuffer, HashMap<Character, Integer> characterCount) {
@@ -126,13 +126,13 @@ public class BalancedPassword {
         return characterBuffer.size()==2;
     }
 
-    private static int getLengthOfSubString(LinkedList<Character> characterBuffer, HashMap<Character, Integer> characterCount) {
-        // Initialize length to the number of occurrences - (2*occurrences of char a(or b))
-        return characterCount.get(characterBuffer.getFirst())+characterCount.get(characterBuffer.getLast());
-    }
-
     private static boolean isBalanced(LinkedList<Character> characterBuffer, HashMap<Character, Integer> characterCount) {
         // A string is balanced if its constituents are made up of two characters and made up of two characters that have equal occurrences
         return characterCount.get(characterBuffer.getFirst()).equals(characterCount.get(characterBuffer.getLast()));
+    }
+
+    private static int getLengthOfSubString(LinkedList<Character> characterBuffer, HashMap<Character, Integer> characterCount) {
+        // Initialize length to the number of occurrences - (2*occurrences of char a(or b))
+        return characterCount.get(characterBuffer.getFirst())+characterCount.get(characterBuffer.getLast());
     }
 }
