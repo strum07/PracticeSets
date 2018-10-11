@@ -29,8 +29,6 @@ package LeetCode;
 //      The characters in J are distinct.
 
 // Status: Accepted
-// Runtime: 16s
-
 
 import java.util.HashMap;
 
@@ -45,8 +43,13 @@ public class JewelsAndStones {
 
         System.out.println(numJewelsInStones(jewel,stone));
         System.out.println(numJewelsInStones(anotherJewel,anotherStone));
+        System.out.println(numJewelsInStones2(jewel,stone));
+        System.out.println(numJewelsInStones2(anotherJewel,anotherStone));
     }
 
+
+    // Status: Accepted
+    //Runtime: 12 ms
     private static int numJewelsInStones(String jewel, String stone) {
         int count = 0;
 
@@ -62,6 +65,25 @@ public class JewelsAndStones {
             }
         }
         return count;
+    }
+
+
+    // Status: Accepted
+    // Runtime: 26 ms
+    // Lesson: Shorter Code doesn't translate to faster code
+    private static int numJewelsInStones2(String J, String S) {
+
+        //Approach 1: Optimization
+        //for everything in J
+        //Check if its a substring of S
+        //Add the lengths of the trimmed string(S) that contains only char[i] in J
+
+
+        //Approach 2: Regex Optimization
+        String regex = "[^"+J+"]";
+        String replaced = S.replaceAll(regex,"");
+        return replaced.length();
+
     }
 
 }
