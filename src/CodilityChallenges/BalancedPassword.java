@@ -1,4 +1,5 @@
 package CodilityChallenges;
+
 //Date: 10th October 2018
 
 //Programmer: Sagar Sudhakar
@@ -59,44 +60,41 @@ public class BalancedPassword {
 
         HashMap<Character,Integer> characterCount = new HashMap<>();
 
-        for(int i=0;i<string.length();i++){
+        for(int currentIndex=0;currentIndex<string.length();currentIndex++){
 
-            //if the buffer size is empty OR
-            //if the buffer size is less than 2
-            if(characterBuffer.size()<2){
+            if(bufferNotFull(characterBuffer)){
 
                 //if this character is not present
-                if(!characterBuffer.contains(string.charAt(i))){
-
+                if(!characterBuffer.contains(string.charAt(currentIndex))){
                     //add character to buffer
-                    characterBuffer.add(string.charAt(i));
+                    characterBuffer.add(string.charAt(currentIndex));
                 }
             }
             //if the buffer size is equal to 2 (never will it be more than 2 as we clear the contents when it = 2 and character is not present)
             else{
 
                 //if this character is not present
-                if(!characterBuffer.contains(string.charAt(i))){
+                if(!characterBuffer.contains(string.charAt(currentIndex))){
 
                     //clear contents of the list
                     characterBuffer.clear();
 
                     //add previous character - to tail by default - becomes new head
-                    characterBuffer.add(string.charAt(i-1));
+                    characterBuffer.add(string.charAt(previousCharTo(currentIndex)));
 
                     //add new character to list - to tail by default
-                    characterBuffer.add(string.charAt(i));
+                    characterBuffer.add(string.charAt(currentIndex));
 
                     //Clear contents of count
                     characterCount.clear();
 
                     //reinitialize count of previous character to 1
-                    characterCount.put(string.charAt(i-1),1);
+                    characterCount.put(string.charAt(previousCharTo(currentIndex)),1);
                 }
             }
 
             //increment count of current character
-            characterCount.put(string.charAt(i),characterCount.getOrDefault(string.charAt(i),0)+1);
+            characterCount.put(string.charAt(currentIndex),characterCount.getOrDefault(string.charAt(currentIndex),0)+1);
 
             //check the current state of affairs - use the buffer and count of characters to see if we have a new maxlength substring each iteration
             //if found, set max length to newly found/formed substring
@@ -105,18 +103,20 @@ public class BalancedPassword {
         return maxLength;
     }
 
-    private static int lengthIfBalanced(LinkedList<Character> characterBuffer, HashMap<Character, Integer> characterCount) {
-        //int length = 0;
-        //if (isValid(characterBuffer) && isBalanced(characterBuffer, characterCount)) {
-        //  length = getLengthOfSubString(characterBuffer, characterCount);
-        //}
-        //nothing special here - return it
-        //return length;
-
-        return (isValid(characterBuffer) && isBalanced(characterBuffer, characterCount)) ?  getLengthOfSubString(characterBuffer, characterCount) : 0;
+    private static int previousCharTo(int currentIndex) {
+        //Might be an overkill - But readable now and eliminating magic numbers
+        return currentIndex-1;
     }
 
+    private static boolean bufferNotFull(LinkedList<Character> characterBuffer) {
+        //if the buffer size is empty OR
+        //if the buffer size is less than 2.
+        return characterBuffer.size()<2;
+    }
 
+    private static int lengthIfBalanced(LinkedList<Character> characterBuffer, HashMap<Character, Integer> characterCount) {
+        return (isValid(characterBuffer) && isBalanced(characterBuffer, characterCount)) ?  getLengthOfSubString(characterBuffer, characterCount) : 0;
+    }
 
     private static boolean isValid(LinkedList<Character> characterBuffer) {
         // A string is valid if its constituents are made up of two characters
@@ -132,7 +132,4 @@ public class BalancedPassword {
         // A string is balanced if its constituents are made up of two characters and made up of two characters that have equal occurrences
         return characterCount.get(characterBuffer.getFirst()).equals(characterCount.get(characterBuffer.getLast()));
     }
-
-
-
 }
