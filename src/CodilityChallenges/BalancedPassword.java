@@ -109,24 +109,46 @@ public class BalancedPassword {
         int length = 0;
         
         //As per problem description, A string is balanced if its constituents are made up of two characters that have equal occurrences
-        if(characterBuffer.size()==2){
+        //if(characterBuffer.size()==2){
+        if(isValid(characterBuffer)){
 
             //extract the two chars in the buffer
-            Character a = characterBuffer.getFirst();   
-            Character b = characterBuffer.getLast();
+            //Character a = characterBuffer.getFirst();
+            //Character b = characterBuffer.getLast();
             
             //Using the extracted chars - get the number of times they occur in the present substring
-            Integer countA = characterCount.get(a);
-            Integer countB = characterCount.get(b);
+            //Integer countA = characterCount.get(a);
+            //Integer countB = characterCount.get(b);
             
             //check if their counts are equal - as its the second condition of being a balanced substring
-            if(countA.equals(countB)){
-                
+            if(isBalanced(characterBuffer,characterCount)){
                 //initialize length to the number of occurrences - (2*occurrences of char a(or b))
-                length = countA+countB;
+                length = getLengthOfSubString(characterBuffer,characterCount);
             }
         }
+
         //nothing special here - return it
         return length;
     }
+
+
+
+    private static boolean isValid(LinkedList<Character> characterBuffer) {
+
+        // A string is valid if its constituents are made up of two characters
+        return characterBuffer.size()==2;
+    }
+
+    private static int getLengthOfSubString(LinkedList<Character> characterBuffer, HashMap<Character, Integer> characterCount) {
+        return characterCount.get(characterBuffer.getFirst())+characterCount.get(characterBuffer.getLast());
+    }
+
+    private static boolean isBalanced(LinkedList<Character> characterBuffer, HashMap<Character, Integer> characterCount) {
+
+        // A string is balanced if its constituents are made up of two characters and made up of two characters that have equal occurrences
+        return characterCount.get(characterBuffer.getFirst()).equals(characterCount.get(characterBuffer.getLast()));
+    }
+
+
+
 }
