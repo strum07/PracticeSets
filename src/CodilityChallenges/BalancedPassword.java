@@ -99,11 +99,8 @@ public class BalancedPassword {
             characterCount.put(string.charAt(i),characterCount.getOrDefault(string.charAt(i),0)+1);
 
             //check the current state of affairs - use the buffer and count of characters to see if we have a new maxlength substring each iteration
-            if(lengthIfBalanced(characterBuffer,characterCount)>maxLength){
-
-                //if found, set max length to newly found/formed substring
-                maxLength = lengthIfBalanced(characterBuffer,characterCount);
-            }
+            //if found, set max length to newly found/formed substring
+            maxLength = Math.max(maxLength,lengthIfBalanced(characterBuffer,characterCount));
         }
         return maxLength;
     }
