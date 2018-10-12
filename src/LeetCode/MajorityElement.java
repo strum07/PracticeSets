@@ -40,16 +40,16 @@ public class MajorityElement {
 
     // Runtime:  32 ms
     private static int majorityElement(int[] nums) {
-        int majorityElement = 0;
+        int majorityElement;
 
-        HashMap<Integer,Integer> countOfOccurances = new HashMap<>();
+        HashMap<Integer,Integer> countOfOccurrences = new HashMap<>();
 
-        for(int index=0;index<nums.length;index++){
+        for (int num : nums) {
 
-            countOfOccurances.put(nums[index],countOfOccurances.getOrDefault(nums[index],0)+1);
+            countOfOccurrences.put(num, countOfOccurrences.getOrDefault(num, 0) + 1);
 
-            if(countOfOccurances.get(nums[index])>(nums.length/2)){
-                majorityElement = nums[index];
+            if (countOfOccurrences.get(num) > (nums.length / 2)) {
+                majorityElement = num;
                 return majorityElement;
             }
         }
@@ -65,14 +65,22 @@ public class MajorityElement {
         int majorityCandidate = -1;
         int count = 0;
 
-        for(int index=0;index<nums.length;index++){
-            if(count==0){
+        for (int num : nums) {
+
+            if (count == 0) {
+
                 count++;
-                majorityCandidate = nums[index];
-            }else if(majorityCandidate == nums[index]){
+
+                majorityCandidate = num;
+
+            } else if (majorityCandidate == num) {
+
                 count++;
-            }else{
+
+            } else {
+
                 count--;
+
             }
         }
         return majorityCandidate;
