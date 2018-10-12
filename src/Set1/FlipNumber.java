@@ -2,7 +2,7 @@ package Set1;
 
 import java.util.Scanner;
 
-public class ReverseNumber {
+public class FlipNumber {
 
     public static void main(String[] args){
 
@@ -12,14 +12,14 @@ public class ReverseNumber {
 
         int number = input.nextInt();
 
-        System.out.println("Reversed : "+ReverseNumber(number) );
+        System.out.println("Reversed : "+ reverse(number) );
 
         if(isPalindrom(number)){
             System.out.println("Palindrome!!!!!!");
         }
     }
 
-    public static int ReverseNumber(int number){
+    public static int reverse(int number){
         int reversedNum = 0;
         while(number!=0){
             reversedNum = reversedNum * 10;
@@ -32,7 +32,7 @@ public class ReverseNumber {
 
     public static boolean isPalindrom(int number){
         boolean status = false;
-        if(number==ReverseNumber(number)){
+        if(number== reverse(number)){
             status = true;
         }
         return status;
