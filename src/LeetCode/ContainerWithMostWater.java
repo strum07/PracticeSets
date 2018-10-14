@@ -4,7 +4,7 @@ public class ContainerWithMostWater {
 
 
     public static void main(String[] args) {
-        int[] height = {0,1,0,2,1,0,1,3,2,1,2,1};
+        int[] height = {1,8,6,2,5,4,8,3,7};
 
         System.out.println(maxArea(height));
 
@@ -18,6 +18,13 @@ public class ContainerWithMostWater {
         int leftEdge = 0;
         int rightEdge =0;
         int maxArea = 0;
+
+
+        int minBoundingEdge = 0;
+        int maxBoundingEdge = 0;
+
+        int minBoundingEdgeIndex = 0;
+        int maxBoundingEdgeIndex = 0;
 
 
         for(int i=0;i<height.length;i++){
@@ -42,16 +49,42 @@ public class ContainerWithMostWater {
             }
         }
 
+
+
         for(int i=0;i<height.length;i++){
             waterCapacity[i] = Math.min(leftEdges[i],rightEdges[i])-height[i];
+
+            if(waterCapacity[i]==0){
+                minBoundingEdge = height[i];
+                minBoundingEdgeIndex = i+1;
+                if(minBoundingEdge!=0){
+                    minBoundingEdge = Math.min(minBoundingEdge,height[i]);
+                }
+            }
+
+            if(waterCapacity[i]==0){
+
+                minBoundingEdgeIndex = i+1;
+
+                maxBoundingEdgeIndex = i+1;
+
+
+                //assign start
+                //assign end
+
+
+            }
+
             maxArea+=waterCapacity[i];
         }
 
-        System.out.println(java.util.Arrays.toString(height));
-        System.out.println(java.util.Arrays.toString(leftEdges));
-        System.out.println(java.util.Arrays.toString(rightEdges));
-        System.out.println(java.util.Arrays.toString(waterCapacity));
-        System.out.println(maxArea);
+        System.out.println(java.util.Arrays.toString(height)+" Original");
+        System.out.println(java.util.Arrays.toString(leftEdges)+" Left Edges");
+        System.out.println(java.util.Arrays.toString(rightEdges)+" Right Edges");
+        System.out.println(java.util.Arrays.toString(waterCapacity)+" Water Capacity");
+        System.out.println(minBoundingEdge*minBoundingEdge);
+        System.out.println(minBoundingEdgeIndex);
+        System.out.println(maxBoundingEdge);
 
         return maxArea;
     }
