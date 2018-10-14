@@ -8,14 +8,19 @@ package LeetCode;
 
 // 7. Reverse Integer
 
+// 9. Palindrome Number
 
 // https://leetcode.com/problems/reverse-integer/description/
+
+// https://leetcode.com/problems/palindrome-number/description/
 
 // Status:
 
 // Runtime: 22 ms
 
 // https://leetcode.com/submissions/detail/182636817/
+
+// https://leetcode.com/submissions/detail/182639800/
 
 // Given a 32-bit signed integer, reverse digits of an integer.
 
@@ -54,11 +59,13 @@ public class ReverseInteger {
         System.out.println(reverse(b));
         System.out.println(reverse(c));
 
-
+        System.out.println(isPalindrome(b));
+        System.out.println(isPalindrome(121));
+        System.out.println(isPalindrome(111));
 
     }
 
-    public static int reverse(int number) {
+    private static int reverse(int number) {
         long result =0;
         while(number != 0)
         {
@@ -70,5 +77,17 @@ public class ReverseInteger {
     }
 
 
+    private static boolean isPalindrome(int x) {
+        boolean state = false;
+
+        if(x<0){
+            state = false;
+        }
+        else if (x == reverse(x)) {
+            state = true;
+        }
+
+        return state;
+    }
 
 }
