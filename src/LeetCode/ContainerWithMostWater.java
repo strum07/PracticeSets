@@ -1,5 +1,39 @@
 package LeetCode;
 
+// Date: 13th October 2018
+
+// Programmer: Sagar Sudhakar
+
+// Difficulty: Medium
+
+// 11. Container With Most Water
+
+
+
+// Given n non-negative integers a1, a2, ..., an , where each represents a point at coordinate (i, ai). n vertical lines are drawn such that the two endpoints of line i is at (i, ai) and (i, 0). Find two lines, which together with x-axis forms a container, such that the container contains the most water.
+
+    //    Note: You may not slant the container and n is at least 2.
+
+
+    //  The above vertical lines are represented by array [1,8,6,2,5,4,8,3,7]. In this case, the max area of water (blue section) the container can contain is 49.
+
+    //    Example:
+    //    Input: [1,8,6,2,5,4,8,3,7]
+    //    Output: 49
+
+
+// https://leetcode.com/problems/container-with-most-water/description/
+
+// Status: Accepted
+
+// Runtime: 5 ms
+
+// https://leetcode.com/submissions/detail/182604461/
+
+// Classic 2 pointer problem
+
+
+
 public class ContainerWithMostWater {
 
 
@@ -11,83 +45,27 @@ public class ContainerWithMostWater {
     }
 
     private static int maxArea(int[] height) {
-
-        int[] waterCapacity = new int[height.length];
-        int[] leftEdges = new int[height.length];
-        int[] rightEdges = new int[height.length];
-        int leftEdge = 0;
-        int rightEdge =0;
         int maxArea = 0;
 
+        int leftPointer = 0;
+        int rightPointer = height.length -1;
 
-        int minBoundingEdge = 0;
-        int maxBoundingEdge = 0;
-
-        int minBoundingEdgeIndex = 0;
-        int maxBoundingEdgeIndex = 0;
-
-
-        for(int i=0;i<height.length;i++){
-            if(height[i]>leftEdge){
-                leftEdge = height[i];
-                leftEdges[i] = leftEdge;
-            }
-            else {
-                leftEdges[i] = leftEdge;
-
-            }
+        if(height.length==0 || height.length < 2){
+            return maxArea;
         }
 
-        for(int i=height.length-1;i>=0;i--){
-            if(height[i]>rightEdge){
-                rightEdge = height[i];
-                rightEdges[i] = rightEdge;
-            }
-            else {
-                rightEdges[i] = rightEdge;
+        while(leftPointer<rightPointer) {
+            int area = (rightPointer - leftPointer) * Math.min(height[leftPointer], height[rightPointer]);
 
+            maxArea = Math.max(maxArea, area);
+
+            if (height[leftPointer] < height[rightPointer]) {
+                leftPointer++;
+            } else {
+                rightPointer--;
             }
         }
-
-
-
-        for(int i=0;i<height.length;i++){
-            waterCapacity[i] = Math.min(leftEdges[i],rightEdges[i])-height[i];
-
-            if(waterCapacity[i]==0){
-                minBoundingEdge = height[i];
-                minBoundingEdgeIndex = i+1;
-                if(minBoundingEdge!=0){
-                    minBoundingEdge = Math.min(minBoundingEdge,height[i]);
-                }
-            }
-
-            if(waterCapacity[i]==0){
-
-                minBoundingEdgeIndex = i+1;
-
-                maxBoundingEdgeIndex = i+1;
-
-
-                //assign start
-                //assign end
-
-
-            }
-
-            maxArea+=waterCapacity[i];
-        }
-
-        System.out.println(java.util.Arrays.toString(height)+" Original");
-        System.out.println(java.util.Arrays.toString(leftEdges)+" Left Edges");
-        System.out.println(java.util.Arrays.toString(rightEdges)+" Right Edges");
-        System.out.println(java.util.Arrays.toString(waterCapacity)+" Water Capacity");
-        System.out.println(minBoundingEdge*minBoundingEdge);
-        System.out.println(minBoundingEdgeIndex);
-        System.out.println(maxBoundingEdge);
-
         return maxArea;
     }
-
 
 }
