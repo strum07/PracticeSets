@@ -31,8 +31,8 @@ public class ReverseString {
     public static void main(String[] args) {
         String inputString = "A man, a plan, a canal: Panama";
         System.out.println(inputString);
-        //System.out.println(reverseString(inputString));
-        //System.out.println(reverseString1(inputString));
+        System.out.println(reverseString(inputString));
+        System.out.println(reverseString1(inputString));
         System.out.println(reverseString2(inputString));
     }
 
