@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Scanner;
 import java.util.Stack;
 
@@ -31,6 +32,23 @@ public class Main {
         System.out.println("reverse of input number is: "+reversenum);
 
         */
+
+
+
+       int[] a = {1,1,0};
+       int[] b = new int[a.length];
+        int z =0;
+
+       for(int i=a.length-1;i>=0;i--){
+           int temp = a[i];
+           if(temp==0){
+               b[z] = 1;
+           }else{
+               b[z] = 0;
+           }
+           z++;
+       }
+       System.out.println(Arrays.toString(b));
 
     }
 }
