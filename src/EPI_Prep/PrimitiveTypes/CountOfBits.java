@@ -1,4 +1,4 @@
-package EPI_Prep.Arrays.PrimitiveTypes;
+package EPI_Prep.PrimitiveTypes;
 
 public class CountOfBits {
     public static void main(String[] args) {

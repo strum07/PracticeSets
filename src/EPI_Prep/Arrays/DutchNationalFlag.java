@@ -29,7 +29,7 @@ import java.util.Arrays;
 public class DutchNationalFlag {
 
     public static void main(String[] args) {
-        int[] input ={2,0,2,1,1,0};
+        int[] input ={2,0,1};
 
         sortColors(input);
 
@@ -42,12 +42,16 @@ public class DutchNationalFlag {
         int end = nums.length-1;
 
         while(start<end){
-            if(nums[start]==0){
-                start++;
-            }else if(nums[start]==2){
+            if(nums[start]==2){
                 int temp = nums[end];
-                nums[end]= nums[start];
+                nums[end] =  nums[start];
                 nums[start] = temp;
+                start++;
+                end--;
+            }else if(nums[start]==0){
+                int temp = nums[start];
+                nums[start] = nums[end];
+                nums[end] = temp;
                 start++;
                 end--;
             }
