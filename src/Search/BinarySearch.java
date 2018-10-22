@@ -8,7 +8,11 @@ public class BinarySearch {
         System.out.println(binarySearch(10,input));
         System.out.println(binarySearch(5,input));
         System.out.println(binarySearch(6,input));
-        System.out.println(binarySearch(999,input));
+        System.out.println(binarySearch(Integer.MAX_VALUE,input));
+
+        // int max = Integer.MAX_VALUE+Integer.MAX_VALUE;
+        // System.out.println(Integer.MIN_VALUE);
+
     }
 
     private static boolean binarySearch(int key, int[] input) {
