@@ -37,7 +37,7 @@ public class MergeSort {
 
     }
 
-
+/*
     private static void mergeSort(int[] input,int start, int end){
         int mid = start+((end-start)/2);
 
@@ -47,6 +47,7 @@ public class MergeSort {
         merge(input,start,mid,end);
 
     }
+    */
 
 
     private static void merge(int[] input, int start, int mid, int end) {
@@ -57,17 +58,42 @@ public class MergeSort {
         int[] newLeft = new int[leftSize];
         int[] newRight = new int[rightSize];
 
-        for(int i=0;i<leftSize;i++){
-            newLeft[i]= input[i];
+        System.arraycopy(input, 0, newLeft, 0, leftSize);
+
+        if (rightSize - mid + 1 >= 0) {
+            System.arraycopy(input, mid + 1, newRight, mid + 1, rightSize - mid + 1);
         }
 
-        for(int i=0;i<rightSize;i++){
-            newRight[i]= input[i];
+        int leftPointer = 0;
+        int rightPointer = 0;
+        int inputPointer = 0;
+
+
+        while(leftPointer<leftSize && rightPointer<rightSize){
+
+            if(newLeft[leftPointer]>newRight[rightPointer]){
+                input[inputPointer] = newRight[rightPointer];
+                rightPointer++;
+                inputPointer++;
+            }else{
+                input[inputPointer] = newLeft[leftPointer];
+                leftPointer++;
+                inputPointer++;
+            }
         }
 
-        int
 
+        while(leftPointer<leftSize){
+            input[inputPointer] = newLeft[leftPointer];
+            leftPointer++;
+            inputPointer++;
+        }
 
+        while(rightPointer<rightSize){
+            input[inputPointer] = newRight[rightPointer];
+            rightPointer++;
+            inputPointer++;
+        }
     }
 
 
