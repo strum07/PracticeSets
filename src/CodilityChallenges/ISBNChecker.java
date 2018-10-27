@@ -2,8 +2,9 @@ package CodilityChallenges;
 
 public class ISBNChecker {
 
-    public static final int ISBN_THIRTEEN = 13;
-    public static final int ISBN_TEN = 10;
+    private static final int ISBN_THIRTEEN = 13;
+    private static final int ISBN_TEN = 10;
+    private static final int INVALID_POSITION = -1;
 
     public static void main(String[] args) {
 
@@ -29,101 +30,110 @@ public class ISBNChecker {
 
         boolean isValid = false;
 
-        String digitsFromRawISBN = extractDigitsFromRawISBN(rawISBN);
+        String digitsFromISBN = extractDigitsFromRawISBN(rawISBN);
 
-        int lengthOfISBN = digitsFromRawISBN.length();
+        int lengthOfISBN = digitsFromISBN.length();
 
         if(isValidLength(lengthOfISBN)){
             if(lengthOfISBN==ISBN_THIRTEEN){
 
-                isValid = isValidISBNThirteen(digitsFromRawISBN);
+                isValid = isValidISBNThirteen(digitsFromISBN);
 
             }else if(lengthOfISBN==ISBN_TEN){
 
-                isValid = isValidISBNTen(digitsFromRawISBN);
+                isValid = isValidISBNTen(digitsFromISBN);
 
             }
         }
         return isValid;
     }
 
-    private static boolean isValidISBNThirteen(String digitsFromRawISBN) {
+    private static String extractDigitsFromRawISBN(String rawISBN) {
 
-        boolean isValid = false;
-        int sumOfProducts =0;
+        StringBuilder sbISBN = new StringBuilder();
 
-        int checkDigit = extractCheckDigit(digitsFromRawISBN,ISBN_THIRTEEN);
+        if(rawISBN == null || rawISBN.isEmpty()) {
+            return "";
+        }
 
-        for(int i=0;i<ISBN_THIRTEEN-1;i++){
-            if((i+1)%2==0){
-
-                sumOfProducts += numberAt(digitsFromRawISBN,i)*3;
-            }else{
-
-                sumOfProducts += numberAt(digitsFromRawISBN,i);
+        for(char c : rawISBN.toCharArray()){
+            if(Character.isDigit(c)){
+                sbISBN.append(c);
             }
         }
-
-        if(calculateISBNThirteenCheckDigit(sumOfProducts)==checkDigit){
-            isValid = true;
-        }
-        return isValid;
-    }
-
-
-    private static boolean isValidISBNTen(String digitsFromString) {
-
-        boolean isValid = false;
-        int sumOfProducts =0;
-
-        int checkDigit = extractCheckDigit(digitsFromString,ISBN_TEN);
-
-        for(int i=0;i<ISBN_TEN;i++){
-
-            sumOfProducts += numberAt(digitsFromString,i)*(i+1);
-
-        }
-
-        if(calculateISBNTenCheckDigit(sumOfProducts)==checkDigit){
-            isValid = true;
-        }
-        return isValid;
-    }
-
-    private static int numberAt(String digitsFromString, int position) {
-        return (Character.getNumericValue(digitsFromString.charAt(position)));
-    }
-
-    private static int extractCheckDigit(String digitsFromString, int lengthOfISBN) {
-        //length-1 will give us the last index
-        return numberAt(digitsFromString,lengthOfISBN-1);
-    }
-
-    private static int calculateISBNTenCheckDigit(int sumOfProducts) {
-        return sumOfProducts%11;
-    }
-
-    private static int calculateISBNThirteenCheckDigit(int sumOfProducts) {
-        return ((10-(sumOfProducts%10))%10);
+        return sbISBN.toString();
     }
 
     private static boolean isValidLength(int lengthOfISBN) {
         return lengthOfISBN == ISBN_TEN || lengthOfISBN == ISBN_THIRTEEN;
     }
 
-    private static String extractDigitsFromRawISBN(String isbn) {
+    private static boolean isValidISBNThirteen(String digitsFromISBN) {
 
-        StringBuilder sbISBN = new StringBuilder();
+        boolean isValid = false;
+        int sumOfProducts =0;
 
-        if(isbn == null || isbn.isEmpty()) {
-            return "";
-        }
+        int checkDigit = extractCheckDigit(digitsFromISBN,ISBN_THIRTEEN);
 
-        for(char c : isbn.toCharArray()){
-            if(Character.isDigit(c)){
-                sbISBN.append(c);
+        for(int i=0;i<ISBN_THIRTEEN-1;i++){
+            if((i+1)%2==0){
+
+                sumOfProducts += numberAt(digitsFromISBN,i)*3;
+            }else{
+
+                sumOfProducts += numberAt(digitsFromISBN,i);
             }
         }
-        return sbISBN.toString();
+
+        if(checkDigit!=INVALID_POSITION){
+            if(calculateISBNThirteenCheckDigit(sumOfProducts)==checkDigit){
+                isValid = true;
+            }
+        }
+
+        return isValid;
+    }
+
+    private static boolean isValidISBNTen(String digitsFromISBN) {
+
+        boolean isValid = false;
+        int sumOfProducts =0;
+
+        int checkDigit = extractCheckDigit(digitsFromISBN,ISBN_TEN);
+
+        for(int i=0;i<ISBN_TEN;i++){
+
+            sumOfProducts += numberAt(digitsFromISBN,i)*(i+1);
+
+        }
+
+        if(checkDigit!=INVALID_POSITION){
+            if(calculateISBNTenCheckDigit(sumOfProducts)==checkDigit){
+                isValid = true;
+            }
+        }
+
+        return isValid;
+    }
+
+    private static int numberAt(String digitsFromISBN, int position) {
+
+        if((position<0) || (position>(digitsFromISBN.length()-1))){
+            return INVALID_POSITION;
+        }
+
+        return Character.getNumericValue(digitsFromISBN.charAt(position));
+    }
+
+    private static int extractCheckDigit(String digitsFromISBN, int lengthOfISBN) {
+        return numberAt(digitsFromISBN,lengthOfISBN-1);
+    }
+
+    private static int calculateISBNThirteenCheckDigit(int sumOfProducts) {
+        return ((10-(sumOfProducts%10))%10);
+    }
+
+    private static int calculateISBNTenCheckDigit(int sumOfProducts) {
+        return (sumOfProducts%11);
     }
 }
