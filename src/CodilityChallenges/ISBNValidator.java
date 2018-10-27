@@ -7,6 +7,10 @@ public class ISBNValidator {
     private static final int INVALID_POSITION = -1;
     private static final String EMPTY_STRING = "";
     private static final boolean BOOLEAN_EMPTY_STRING = false;
+    private static final int INVALID_ISBN_TYPE = -1;
+    private static final int INVALID_SUM_OF_PRODUCTS = -3;
+    private static final int MIN_SUM_OF_PRODUCTS = 0;
+    private static final int MAX_SUM_OF_PRODUCTS = (9*9)*9;
 
     public static void main(String[] args) {
 
@@ -160,6 +164,10 @@ public class ISBNValidator {
 
     private static int calculateISBNCheckDigit(int sumOfProducts, int typeISBN){
 
+        if((sumOfProducts<0)){
+            return INVALID_SUM_OF_PRODUCTS;
+
+        }
         if(typeISBN==ISBN_TEN){
             return ((11-(sumOfProducts%11))%11);
 
@@ -168,6 +176,7 @@ public class ISBNValidator {
 
         }
 
-        return -1;
+        return INVALID_ISBN_TYPE;
     }
+
 }
