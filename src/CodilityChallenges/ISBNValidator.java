@@ -2,15 +2,18 @@ package CodilityChallenges;
 
 public class ISBNValidator {
 
+
+    private static final String EMPTY_STRING = "";
+    private static final boolean BOOLEAN_EMPTY_STRING = false;
+
     private static final int ISBN_THIRTEEN = 13;
     private static final int ISBN_TEN = 10;
     private static final int INVALID_POSITION = -1;
-    private static final String EMPTY_STRING = "";
-    private static final boolean BOOLEAN_EMPTY_STRING = false;
     private static final int INVALID_ISBN_TYPE = -1;
     private static final int INVALID_SUM_OF_PRODUCTS = -3;
     private static final int MIN_SUM_OF_PRODUCTS = 0;
-    private static final int MAX_SUM_OF_PRODUCTS = (9*9)*9;
+    private static final int MAX_SUM_OF_PRODUCTS_ISBN_TEN = (9*9)*9;
+    private static final int MAX_SUM_OF_PRODUCTS_ISBN_THIRTEEN = (9*12)*9;
 
     public static void main(String[] args) {
 
@@ -85,21 +88,7 @@ public class ISBNValidator {
 
         int checkDigit = extractCheckDigit(digitsFromISBN,ISBN_THIRTEEN);
 
-        for(int i=0;i<ISBN_THIRTEEN-1;i++){
-
-            int currentDigit = numberAt(digitsFromISBN,i);
-
-            if(currentDigit!=INVALID_POSITION){
-                if((i+1)%2==0){
-
-                    sumOfProducts += currentDigit*3;
-                }else{
-
-                    sumOfProducts += currentDigit;
-                }
-            }
-
-        }
+        sumOfProducts = getSumOfProducts(digitsFromISBN, sumOfProducts,ISBN_THIRTEEN);
 
         if(checkDigit!=INVALID_POSITION){
             if(calculateISBNThirteenCheckDigit(sumOfProducts)==checkDigit){
@@ -108,6 +97,35 @@ public class ISBNValidator {
         }
 
         return isValid;
+    }
+
+    private static int getSumOfProducts(String digitsFromISBN, int sumOfProducts, int typeISBN ) {
+
+        if(typeISBN == ISBN_THIRTEEN){
+            for(int i=0;i<ISBN_THIRTEEN-1;i++){
+
+                int currentDigit = numberAt(digitsFromISBN,i);
+
+                if(currentDigit!=INVALID_POSITION){
+                    if((i+1)%2==0){
+
+                        sumOfProducts += currentDigit*3;
+                    }else{
+
+                        sumOfProducts += currentDigit;
+                    }
+                }
+            }
+        } else if(typeISBN == ISBN_TEN){
+
+        }
+
+
+
+
+
+
+        return sumOfProducts;
     }
 
     private static boolean isValidISBNTen(String digitsFromISBN) {
@@ -164,16 +182,19 @@ public class ISBNValidator {
 
     private static int calculateISBNCheckDigit(int sumOfProducts, int typeISBN){
 
-        if((sumOfProducts<0)){
+        if((typeISBN == ISBN_TEN)&&(sumOfProducts<MIN_SUM_OF_PRODUCTS || sumOfProducts>MAX_SUM_OF_PRODUCTS_ISBN_TEN)){
             return INVALID_SUM_OF_PRODUCTS;
-
         }
+
+        if((typeISBN == ISBN_THIRTEEN)&&(sumOfProducts<MIN_SUM_OF_PRODUCTS || sumOfProducts>MAX_SUM_OF_PRODUCTS_ISBN_THIRTEEN)){
+            return INVALID_SUM_OF_PRODUCTS;
+        }
+
         if(typeISBN==ISBN_TEN){
             return ((11-(sumOfProducts%11))%11);
 
         }else if(typeISBN==ISBN_THIRTEEN){
             return ((10-(sumOfProducts%10))%10);
-
         }
 
         return INVALID_ISBN_TYPE;
