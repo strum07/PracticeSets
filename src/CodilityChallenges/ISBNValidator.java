@@ -1,10 +1,12 @@
 package CodilityChallenges;
 
-public class ISBNChecker {
+public class ISBNValidator {
 
     private static final int ISBN_THIRTEEN = 13;
     private static final int ISBN_TEN = 10;
     private static final int INVALID_POSITION = -1;
+    private static final String EMPTY_STRING = "";
+    private static final boolean BOOLEAN_EMPTY_STRING = false;
 
     public static void main(String[] args) {
 
@@ -53,7 +55,7 @@ public class ISBNChecker {
         StringBuilder sbISBN = new StringBuilder();
 
         if(rawISBN == null || rawISBN.isEmpty()) {
-            return "";
+            return EMPTY_STRING;
         }
 
         for(char c : rawISBN.toCharArray()){
@@ -73,16 +75,26 @@ public class ISBNChecker {
         boolean isValid = false;
         int sumOfProducts =0;
 
+        if(digitsFromISBN == null || digitsFromISBN.isEmpty()) {
+            return BOOLEAN_EMPTY_STRING;
+        }
+
         int checkDigit = extractCheckDigit(digitsFromISBN,ISBN_THIRTEEN);
 
         for(int i=0;i<ISBN_THIRTEEN-1;i++){
-            if((i+1)%2==0){
 
-                sumOfProducts += numberAt(digitsFromISBN,i)*3;
-            }else{
+            int currentDigit = numberAt(digitsFromISBN,i);
 
-                sumOfProducts += numberAt(digitsFromISBN,i);
+            if(currentDigit!=INVALID_POSITION){
+                if((i+1)%2==0){
+
+                    sumOfProducts += currentDigit*3;
+                }else{
+
+                    sumOfProducts += currentDigit;
+                }
             }
+
         }
 
         if(checkDigit!=INVALID_POSITION){
@@ -99,12 +111,20 @@ public class ISBNChecker {
         boolean isValid = false;
         int sumOfProducts =0;
 
+        if(digitsFromISBN == null || digitsFromISBN.isEmpty()) {
+            return BOOLEAN_EMPTY_STRING;
+        }
+
         int checkDigit = extractCheckDigit(digitsFromISBN,ISBN_TEN);
 
-        for(int i=0;i<ISBN_TEN;i++){
+        for(int i=0,multiplier=10;i<ISBN_TEN-1;i++,multiplier--){
 
-            sumOfProducts += numberAt(digitsFromISBN,i)*(i+1);
+            int currentDigit = numberAt(digitsFromISBN,i);
 
+            if(currentDigit!=INVALID_POSITION){
+
+                sumOfProducts += currentDigit*multiplier;
+            }
         }
 
         if(checkDigit!=INVALID_POSITION){
@@ -134,6 +154,20 @@ public class ISBNChecker {
     }
 
     private static int calculateISBNTenCheckDigit(int sumOfProducts) {
-        return (sumOfProducts%11);
+        return ((11-(sumOfProducts%11))%11);
+    }
+
+
+    private static int calculateISBNCheckDigit(int sumOfProducts, int typeISBN){
+
+        if(typeISBN==ISBN_TEN){
+            return ((11-(sumOfProducts%11))%11);
+
+        }else if(typeISBN==ISBN_THIRTEEN){
+            return ((10-(sumOfProducts%10))%10);
+
+        }
+
+        return -1;
     }
 }
