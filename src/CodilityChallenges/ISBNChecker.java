@@ -120,7 +120,7 @@ public class ISBNChecker {
         int ISBNLength = cleanNumber.length();
 
         if(isValidLength(ISBNLength)){
-            System.out.println("");
+            System.out.println();
             System.out.println("Clean Number:" +cleanNumber);
             System.out.println("String Length: "+ISBNLength);
             isValid = validateCleanISBN(cleanNumber,ISBNLength);
@@ -136,15 +136,16 @@ public class ISBNChecker {
     private static boolean validateCleanISBN(String cleanNumber, int ISBNLength) {
 
         boolean isValid = false;
+        int sumOfProducts =0;
+
+        //length-1 will give us the last index
+        int checkDigit = Character.getNumericValue(cleanNumber.charAt(ISBNLength-1)) ;
 
         if(ISBNLength==13){
             //System.out.println("I am here!");
             //System.out.println("Received Clean Number: "+cleanNumber);
 
-            int sumOfProducts =0;
 
-            //length-1 will give us the last index
-            int checkDigit = Character.getNumericValue(cleanNumber.charAt(ISBNLength-1)) ;
 
             //loop until the we see the last index containing the check digit (not -2!!!)
             for(int i=0;i<ISBNLength-1;i++){
@@ -153,7 +154,7 @@ public class ISBNChecker {
                     sumOfProducts += (Character.getNumericValue(cleanNumber.charAt(i)))*3;
                 }else{
                     //System.out.println("Iteration: "+(i+1));
-                    sumOfProducts += (Character.getNumericValue(cleanNumber.charAt(i)))*1;
+                    sumOfProducts += (Character.getNumericValue(cleanNumber.charAt(i)));
                 }
             }
             System.out.println("Sum of Products: "+sumOfProducts);
@@ -164,17 +165,22 @@ public class ISBNChecker {
                 isValid = true;
             }
 
-        }else if (ISBNLength==10){
+        }else if(ISBNLength==10){
 
-            String newString = "978"+cleanNumber;
+            for(int i=0;i<ISBNLength;i++){
+                    sumOfProducts += (Character.getNumericValue(cleanNumber.charAt(i)))*(i+1);
+            }
 
-            System.out.println(newString);
-
-            isValid = validateCleanISBN(newString,newString.length());
-
+            if(calculateISBNTenCheckDigit(sumOfProducts)==checkDigit){
+                isValid = true;
+            }
         }
 
         return isValid;
+    }
+
+    private static int calculateISBNTenCheckDigit(int sumOfProducts) {
+        return sumOfProducts%11;
     }
 
     private static int calculateCheckDigit(int sumOfProducts) {
