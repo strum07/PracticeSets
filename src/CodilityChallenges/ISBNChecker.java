@@ -20,11 +20,6 @@ ISBN-13:    9780470059029
             978-0-13-149505-0
             978-0-262-13472-9
 
-
-
-
-
-
 Spaces and hyphens may be included in a code, but are not significant.
 
 This means that 9780471486480 is equivalent to 978-0-471-48648-0 and 978 0 471 48648 0.
@@ -48,9 +43,6 @@ modulo 11 of the result (with 'X' being used if the result is 10).
 *******************
 ******ISBN 10******
 *******************
-
-
-
 
 
 
@@ -89,11 +81,12 @@ Also return true if the string is a valid ISBN-10.
 
 public class ISBNChecker {
 
+    public static final int ISBN_THIRTEEN = 13;
+    public static final int ISBN_TEN = 10;
+
     public static void main(String[] args) {
 
         String validTen = "0-321-14653-0";
-
-
 
         String validThirteen1 = "978-0-321-14653-3";
         String validThirteen2 = "978 0 471 48648 0";
@@ -115,59 +108,49 @@ public class ISBNChecker {
 
         boolean isValid = false;
 
-        String cleanNumber = cleanString(ISBN);
+        String digitsFromString = extractDigitsFromString(ISBN);
 
-        int ISBNLength = cleanNumber.length();
+        int lengthOfISBN = digitsFromString.length();
 
-        if(isValidLength(ISBNLength)){
-            System.out.println();
-            System.out.println("Clean Number:" +cleanNumber);
-            System.out.println("String Length: "+ISBNLength);
-            isValid = validateCleanISBN(cleanNumber,ISBNLength);
+        if(isValidLength(lengthOfISBN)){
+            isValid = isValidISBN(digitsFromString,lengthOfISBN);
         }
 
         return isValid;
     }
 
-    private static boolean isValidLength(int isbnLength) {
-        return isbnLength == 10 || isbnLength == 13;
+    private static boolean isValidLength(int lengthOfISBN) {
+        return lengthOfISBN == ISBN_TEN || lengthOfISBN == ISBN_THIRTEEN;
     }
 
-    private static boolean validateCleanISBN(String cleanNumber, int ISBNLength) {
+    private static boolean isValidISBN(String cleanNumber, int lengthOfISBN) {
 
         boolean isValid = false;
         int sumOfProducts =0;
 
         //length-1 will give us the last index
-        int checkDigit = Character.getNumericValue(cleanNumber.charAt(ISBNLength-1)) ;
+        int checkDigit = Character.getNumericValue(cleanNumber.charAt(lengthOfISBN-1)) ;
 
-        if(ISBNLength==13){
-            //System.out.println("I am here!");
-            //System.out.println("Received Clean Number: "+cleanNumber);
-
-
+        if(lengthOfISBN==ISBN_THIRTEEN){
 
             //loop until the we see the last index containing the check digit (not -2!!!)
-            for(int i=0;i<ISBNLength-1;i++){
+            for(int i=0;i<lengthOfISBN-1;i++){
                 if((i+1)%2==0){
-                    //System.out.println("Iteration: "+(i+1));
+
                     sumOfProducts += (Character.getNumericValue(cleanNumber.charAt(i)))*3;
                 }else{
-                    //System.out.println("Iteration: "+(i+1));
+
                     sumOfProducts += (Character.getNumericValue(cleanNumber.charAt(i)));
                 }
             }
-            System.out.println("Sum of Products: "+sumOfProducts);
-            System.out.println("Calculated Digit: "+calculateCheckDigit(sumOfProducts));
-            System.out.println("Check Digit: "+checkDigit);
 
-            if(calculateCheckDigit(sumOfProducts)==checkDigit){
+            if(calculateISBNThirteenCheckDigit(sumOfProducts)==checkDigit){
                 isValid = true;
             }
 
-        }else if(ISBNLength==10){
+        }else if(lengthOfISBN==ISBN_TEN){
 
-            for(int i=0;i<ISBNLength;i++){
+            for(int i=0;i<lengthOfISBN;i++){
                     sumOfProducts += (Character.getNumericValue(cleanNumber.charAt(i)))*(i+1);
             }
 
@@ -179,21 +162,18 @@ public class ISBNChecker {
         return isValid;
     }
 
+
     private static int calculateISBNTenCheckDigit(int sumOfProducts) {
         return sumOfProducts%11;
     }
 
-    private static int calculateCheckDigit(int sumOfProducts) {
-        /*
-         - summing these products together,
-         - taking modulo 10 of the result
-         - and subtracting this value from 10,
-         - and then taking the modulo 10 of the result again to produce a single digit.
-        */
+
+    private static int calculateISBNThirteenCheckDigit(int sumOfProducts) {
         return ((10-(sumOfProducts%10))%10);
     }
 
-    private static String cleanString(String isbn) {
+
+    private static String extractDigitsFromString(String isbn) {
 
         StringBuilder sbISBN = new StringBuilder();
 
