@@ -3,15 +3,19 @@ package CodilityChallenges;
 public class ISBNValidator {
 
     private static final String EMPTY_STRING = "";
-    private static final boolean BOOLEAN_EMPTY_STRING = false;
+    //private static final boolean BOOLEAN_EMPTY_STRING = false;
+
     private static final int ISBN_THIRTEEN = 13;
     private static final int ISBN_TEN = 10;
+
     private static final int INVALID_POSITION = -1;
     private static final int INVALID_ISBN_TYPE = -1;
     private static final int INVALID_SUM_OF_PRODUCTS = -3;
+
+
     private static final int MIN_SUM_OF_PRODUCTS = 0;
-    private static final int MAX_SUM_OF_PRODUCTS_ISBN_TEN = (9*9)*9;
-    private static final int MAX_SUM_OF_PRODUCTS_ISBN_THIRTEEN = (9*12)*9;
+    private static final int ISBN_TEN_MAX_SUM_OF_PRODUCTS = (9*9)*9;
+    private static final int ISBN_THIRTEEN_MAX_SUM_OF_PRODUCTS = (9*12)*9;
 
     public static void main(String[] args) {
 
@@ -31,6 +35,10 @@ public class ISBNValidator {
 
         System.out.println("valid 10");
         System.out.println(isValidISBN(validTen));
+
+        //ISBNValidator ob = new ISBNValidator();
+        //System.out.println("Object here:");
+        //System.out.println(ob.isValidISBN("978-0-321-14653-3"));
     }
 
     private static boolean isValidISBN(String rawISBN) {
@@ -39,46 +47,18 @@ public class ISBNValidator {
 
         String digitsFromISBN = extractDigitsFromRawISBN(rawISBN);
 
-        int lengthOfISBN = digitsFromISBN.length();
+        int typeOfISBN = digitsFromISBN.length();
 
-        if(isValidLength(lengthOfISBN)){
+        if(isValidISBNType(typeOfISBN)){
 
-            isValid = isValidISBN(digitsFromISBN,lengthOfISBN);
+            int checkDigit = extractCheckDigit(digitsFromISBN);
 
+            int sumOfProducts = getSumOfProducts(digitsFromISBN);
 
-            /*
+            isValid = isValidCheckDigit(sumOfProducts, checkDigit,typeOfISBN);
 
-            if(lengthOfISBN==ISBN_THIRTEEN){
-
-                isValid = isValidISBNThirteen(digitsFromISBN);
-
-            }else if(lengthOfISBN==ISBN_TEN){
-
-                isValid = isValidISBNTen(digitsFromISBN);
-
-            }*/
         }
         return isValid;
-    }
-
-    private static boolean isValidISBN(String digitsFromISBN, int lengthOfISBN) {
-
-        boolean isValid = false;
-
-        int sumOfProducts =0;
-
-        if(digitsFromISBN == null || digitsFromISBN.isEmpty()) {
-            return false;
-        }
-
-        int checkDigit = extractCheckDigit(digitsFromISBN,lengthOfISBN);
-
-        sumOfProducts = getSumOfProducts(digitsFromISBN, sumOfProducts,lengthOfISBN);
-
-        isValid = isValidCheckDigit(sumOfProducts, checkDigit,lengthOfISBN);
-
-        return isValid;
-
     }
 
     private static String extractDigitsFromRawISBN(String rawISBN) {
@@ -97,42 +77,35 @@ public class ISBNValidator {
         return sbISBN.toString();
     }
 
-    private static boolean isValidLength(int lengthOfISBN) {
+    private static boolean isValidISBNType(int lengthOfISBN) {
         return lengthOfISBN == ISBN_TEN || lengthOfISBN == ISBN_THIRTEEN;
     }
 
-    /*
-
-    private static boolean isValidISBNThirteen(String digitsFromISBN) {
-
-        boolean isValid = false;
-        int sumOfProducts =0;
-
+    private static int extractCheckDigit(String digitsFromISBN) {
         if(digitsFromISBN == null || digitsFromISBN.isEmpty()) {
+            return -1;
+        }
+
+        int lastIndex = digitsFromISBN.length()-1;
+
+        return numberAt(digitsFromISBN,lastIndex);
+    }
+
+    private static boolean isValidCheckDigit(int sumOfProducts, int checkDigit, int typeISBN) {
+        if (checkDigit == INVALID_POSITION) {
             return false;
         }
 
-        int checkDigit = extractCheckDigit(digitsFromISBN,ISBN_THIRTEEN);
-
-        sumOfProducts = getSumOfProducts(digitsFromISBN, sumOfProducts,ISBN_THIRTEEN);
-
-        isValid = isValidCheckDigit(sumOfProducts, checkDigit,ISBN_THIRTEEN);
-
-        return isValid;
+        return calculateISBNCheckDigit(sumOfProducts, typeISBN) == checkDigit;
     }
 
-    */
+    private static int getSumOfProducts(String digitsFromISBN) {
 
-    private static boolean isValidCheckDigit(int sumOfProducts, int checkDigit, int typeISBN) {
-        if(checkDigit!=INVALID_POSITION){
-            return calculateISBNCheckDigit(sumOfProducts, typeISBN) == checkDigit;
-        }
-        return false;
-    }
+        int sumOfProducts = 0;
 
-    private static int getSumOfProducts(String digitsFromISBN, int sumOfProducts, int typeISBN ) {
+        int typeOfISBN = digitsFromISBN.length();
 
-        if(typeISBN == ISBN_THIRTEEN){
+        if(typeOfISBN == ISBN_THIRTEEN){
             for(int i=0;i<ISBN_THIRTEEN-1;i++){
 
                 int currentDigit = numberAt(digitsFromISBN,i);
@@ -147,7 +120,7 @@ public class ISBNValidator {
                     }
                 }
             }
-        } else if(typeISBN == ISBN_TEN){
+        } else if(typeOfISBN == ISBN_TEN){
 
             for(int i=0,multiplier=10;i<ISBN_TEN-1;i++,multiplier--){
 
@@ -163,41 +136,6 @@ public class ISBNValidator {
         return sumOfProducts;
     }
 
-
-    /*
-
-    private static boolean isValidISBNTen(String digitsFromISBN) {
-
-        boolean isValid = false;
-        int sumOfProducts =0;
-
-        if(digitsFromISBN == null || digitsFromISBN.isEmpty()) {
-            return BOOLEAN_EMPTY_STRING;
-        }
-
-        int checkDigit = extractCheckDigit(digitsFromISBN,ISBN_TEN);
-
-        for(int i=0,multiplier=10;i<ISBN_TEN-1;i++,multiplier--){
-
-            int currentDigit = numberAt(digitsFromISBN,i);
-
-            if(currentDigit!=INVALID_POSITION){
-
-                sumOfProducts += currentDigit*multiplier;
-            }
-        }
-
-        if(checkDigit!=INVALID_POSITION){
-            if(calculateISBNTenCheckDigit(sumOfProducts)==checkDigit){
-                isValid = true;
-            }
-        }
-
-        return isValid;
-    }
-
-    */
-
     private static int numberAt(String digitsFromISBN, int position) {
 
         if((position<0) || (position>(digitsFromISBN.length()-1))){
@@ -207,26 +145,15 @@ public class ISBNValidator {
         return Character.getNumericValue(digitsFromISBN.charAt(position));
     }
 
-    private static int extractCheckDigit(String digitsFromISBN, int lengthOfISBN) {
-        return numberAt(digitsFromISBN,lengthOfISBN-1);
-    }
-
-    // private static int calculateISBNThirteenCheckDigit(int sumOfProducts) {
-    //    return ((10-(sumOfProducts%10))%10);
-    // }
-
-    //private static int calculateISBNTenCheckDigit(int sumOfProducts) {
-    //    return ((11-(sumOfProducts%11))%11);
-    // }
 
 
     private static int calculateISBNCheckDigit(int sumOfProducts, int typeISBN){
 
-        if((typeISBN == ISBN_TEN)&&(sumOfProducts<MIN_SUM_OF_PRODUCTS || sumOfProducts>MAX_SUM_OF_PRODUCTS_ISBN_TEN)){
+        if((typeISBN == ISBN_TEN)&&(sumOfProducts<MIN_SUM_OF_PRODUCTS || sumOfProducts> ISBN_TEN_MAX_SUM_OF_PRODUCTS)){
             return INVALID_SUM_OF_PRODUCTS;
         }
 
-        if((typeISBN == ISBN_THIRTEEN)&&(sumOfProducts<MIN_SUM_OF_PRODUCTS || sumOfProducts>MAX_SUM_OF_PRODUCTS_ISBN_THIRTEEN)){
+        if((typeISBN == ISBN_THIRTEEN)&&(sumOfProducts<MIN_SUM_OF_PRODUCTS || sumOfProducts> ISBN_THIRTEEN_MAX_SUM_OF_PRODUCTS)){
             return INVALID_SUM_OF_PRODUCTS;
         }
 
