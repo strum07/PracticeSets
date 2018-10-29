@@ -4,7 +4,7 @@ public class Something {
 
 
 
-    public class ISBNValidator {
+    public static class ISBNValidator {
 
         private static final int ISBN_THIRTEEN = 13;
 
@@ -109,3 +109,351 @@ public class Something {
     }
 
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    @Test
+    public void isValidISBN_WhenPassedAValidISBN10_DigitsOnly_ReturnsTrue() {
+
+        String testISBN = "0471958697";
+
+        boolean expected = true;
+        boolean actual = ISBNValidator.isValidISBN(testISBN);
+
+        assertEquals(expected, actual);
+    }
+
+
+    @Test
+    public void isValidISBN_WhenPassedAValidISBN10_DigitsAndSpaces_ReturnsTrue() {
+
+        String testISBN = "0 471 60695 2";
+
+        boolean expected = true;
+        boolean actual = ISBNValidator.isValidISBN(testISBN);
+
+        assertEquals(expected, actual);
+    }
+
+
+    @Test
+    public void isValidISBN_WhenPassedAValidISBN10_DigitsAndHyphens_ReturnsTrue() {
+
+        String testISBN = " 0-306-40615-2";
+
+        String anotherTestISBN = "0-321-14653-0";
+
+        boolean expected = true;
+
+
+        boolean actual = ISBNValidator.isValidISBN(testISBN);
+
+        assertEquals(expected, actual);
+
+
+        actual = ISBNValidator.isValidISBN(anotherTestISBN);
+
+        assertEquals(expected, actual);
+    }
+
+
+
+    @Test
+    public void isValidISBN_WhenPassedAInvalidISBN10_DigitsSpacesHyphen_ReturnsFalse() {
+
+        String testISBN = "0 470-84525-9";
+
+        boolean expected = false;
+        boolean actual = ISBNValidator.isValidISBN(testISBN);
+
+        assertEquals(expected, actual);
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ import org.junit.*;
+         import static org.junit.Assert.*;
+
+public class ISBNValidationFactoryTest {
+
+
+//81 - what was I thinking?
+
+
+//ISBN 13 Tests
+
+
+
+
+    ISBNValidationFactory ob = new ISBNValidationFactory();
+
+
+    @Test
+    public void isValidISBN_WhenPassedAnEmptyString_ReturnsFalse() {
+        boolean expected = false;
+        boolean actual = ob.validateISBN("");
+        assertEquals(expected, actual);
+    }
+
+
+    @Test
+    public void isValidISBN_WhenPassedAInvalidISBN_LengthLessThan10_ReturnsFalse() {
+
+        String testISBN = "0 470-84";
+
+        boolean expected = false;
+        boolean actual = ob.validateISBN(testISBN);
+
+        assertEquals(expected, actual);
+    }
+
+
+    @Test
+    public void isValidISBN_WhenPassedAInvalidISBN_LengthGreaterThan13_ReturnsFalse() {
+
+        String testISBN = "9999 9999-99999-999999999999-999999999999- 9999999";
+
+        boolean expected = false;
+        boolean actual = ob.validateISBN(testISBN);
+
+        assertEquals(expected, actual);
+    }
+
+
+    @Test
+    public void isValidISBN_WhenPassedAValidISBN13_DigitsOnly_ReturnsTrue() {
+
+        String testISBN = "9780470059029";
+
+        boolean expected = true;
+        boolean actual = ob.validateISBN(testISBN);
+
+        assertEquals(expected, actual);
+    }
+
+
+    @Test
+    public void isValidISBN_WhenPassedAValidISBN13_DigitsAndSpaces_ReturnsTrue() {
+
+        String testISBN = "978 0 471 48648 0";
+
+        boolean expected = true;
+        boolean actual = ob.validateISBN(testISBN);
+
+        assertEquals(expected, actual);
+    }
+
+
+    @Test
+    public void isValidISBN_WhenPassedAValidISBN13_DigitsAndHyphens_ReturnsTrue() {
+
+        String testISBN = "978-0596809485";
+
+        String anotherTestISBN = "978-0-262-13472-9";
+
+        boolean expected = true;
+
+
+        boolean actual = ob.validateISBN(testISBN);
+
+        assertEquals(expected, actual);
+
+
+        actual = ob.validateISBN(anotherTestISBN);
+
+        assertEquals(expected, actual);
+    }
+
+
+    //did this test the opposite way!
+    @Test
+    public void isValidISBN_WhenPassedAInvalidISBN13_DigitsSpacesHyphen_ReturnsFalse() {
+
+        String testISBN = "978 0-471 48648 8";
+
+        boolean expected = false;
+        boolean actual = ob.validateISBN(testISBN);
+
+        assertEquals(expected, actual);
+    }
+
+
+
+    //ISBN 10 Tests
+
+
+
+    @Test
+    public void isValidISBN_WhenPassedAValidISBN10_DigitsOnly_ReturnsTrue() {
+
+        String testISBN = "0471958697";
+
+        boolean expected = true;
+        boolean actual = ob.validateISBN(testISBN);
+
+        assertEquals(expected, actual);
+    }
+
+
+    @Test
+    public void isValidISBN_WhenPassedAValidISBN10_DigitsAndSpaces_ReturnsTrue() {
+
+        String testISBN = "0 471 60695 2";
+
+        boolean expected = true;
+        boolean actual = ob.validateISBN(testISBN);
+
+        assertEquals(expected, actual);
+    }
+
+
+    @Test
+    public void isValidISBN_WhenPassedAValidISBN10_DigitsAndHyphens_ReturnsTrue() {
+
+        String testISBN = " 0-306-40615-2";
+
+        String anotherTestISBN = "0-321-14653-0";
+
+        boolean expected = true;
+
+
+        boolean actual = ob.validateISBN(testISBN);
+
+        assertEquals(expected, actual);
+
+
+        actual = ob.validateISBN(anotherTestISBN);
+
+        assertEquals(expected, actual);
+    }
+
+
+
+    @Test
+    public void isValidISBN_WhenPassedAInvalidISBN10_DigitsSpacesHyphen_ReturnsFalse() {
+
+        String testISBN = "0 470-84525-9";
+
+        boolean expected = false;
+        boolean actual = ob.validateISBN(testISBN);
+
+        assertEquals(expected, actual);
+    }
+
+
+
+
+
+
+
+
+
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
