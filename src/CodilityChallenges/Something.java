@@ -12,7 +12,7 @@ public class Something {
 
 
 
-        public static boolean isValidISBN(String rawISBN){
+        public boolean isValidISBN(String rawISBN){
 
             boolean isValid = false;
 
