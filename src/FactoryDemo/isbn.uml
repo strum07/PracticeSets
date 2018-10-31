@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>JAVA</ID>
+  <OriginalElement />
+  <nodes>
+    <node x="157.96428571428575" y="0.0">FactoryDemo.ISBN</node>
+    <node x="192.0" y="202.0">FactoryDemo.ISBNFactory</node>
+    <node x="208.0" y="101.0">FactoryDemo.ISBNThirteen</node>
+    <node x="0.0" y="101.0">FactoryDemo.ISBNTen</node>
+    <node x="417.0" y="101.0">FactoryDemo.ExtractDigits</node>
+    <node x="217.5" y="303.0">FactoryDemo.ClientImplementation</node>
+  </nodes>
+  <notes />
+  <edges>
+    <edge source="FactoryDemo.ISBNFactory" target="FactoryDemo.ISBN">
+      <point x="55.0" y="-25.5" />
+      <point x="357.0" y="172.0" />
+      <point x="406.5" y="172.0" />
+      <point x="406.5" y="71.0" />
+      <point x="327.1642857142857" y="71.0" />
+      <point x="75.19999999999996" y="25.5" />
+    </edge>
+    <edge source="FactoryDemo.ISBNFactory" target="FactoryDemo.ISBNThirteen">
+      <point x="-18.333333333333314" y="-25.5" />
+      <point x="283.6666666666667" y="182.0" />
+      <point x="255.0" y="182.0" />
+      <point x="-47.0" y="25.5" />
+    </edge>
+    <edge source="FactoryDemo.ISBNFactory" target="FactoryDemo.ExtractDigits">
+      <point x="91.66666666666669" y="-25.5" />
+      <point x="393.6666666666667" y="182.0" />
+      <point x="550.0" y="182.0" />
+      <point x="0.0" y="25.5" />
+    </edge>
+    <edge source="FactoryDemo.ClientImplementation" target="FactoryDemo.ISBNFactory">
+      <point x="42.25" y="-25.5" />
+      <point x="344.25" y="278.0" />
+      <point x="357.0" y="278.0" />
+      <point x="55.0" y="25.5" />
+    </edge>
+    <edge source="FactoryDemo.ISBNFactory" target="FactoryDemo.ISBNTen">
+      <point x="-91.66666666666666" y="-25.5" />
+      <point x="210.33333333333337" y="182.0" />
+      <point x="47.0" y="182.0" />
+      <point x="-47.0" y="25.5" />
+    </edge>
+    <edge source="FactoryDemo.ISBNThirteen" target="FactoryDemo.ISBN">
+      <point x="47.0" y="-25.5" />
+      <point x="349.0" y="81.0" />
+      <point x="289.5642857142857" y="81.0" />
+      <point x="37.59999999999994" y="25.5" />
+    </edge>
+    <edge source="FactoryDemo.ISBNTen" target="FactoryDemo.ISBN">
+      <point x="-47.0" y="-25.5" />
+      <point x="47.0" y="71.0" />
+      <point x="176.76428571428573" y="71.0" />
+      <point x="-75.20000000000002" y="25.5" />
+    </edge>
+  </edges>
+  <settings layout="Hierarchic Group" zoom="1.0" x="265.5" y="0.0" />
+  <SelectedNodes />
+  <Categories>
+    <Category>Methods</Category>
+  </Categories>
+  <SCOPE>All</SCOPE>
+  <VISIBILITY>private</VISIBILITY>
+</Diagram>
+
