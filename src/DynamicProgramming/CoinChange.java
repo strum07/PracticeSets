@@ -36,4 +36,26 @@ public class CoinChange {
 
         return totalWays;
     }
+
+
+
+    private int countWays(int[] coins, int total){
+        int totalWays = 0;
+
+
+
+        if(total==0){
+            return 1;
+        }
+
+        if(total<1){
+            return 1;
+        }
+
+
+
+
+
+        return totalWays;
+    }
 }
