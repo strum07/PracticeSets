@@ -21,20 +21,13 @@ public class CoinChange {
 
         numberOfWays[0] = 1;
 
-        for (int i=1;i<numberOfWays.length;i++) {
+        for (int i=1;i<coins.length;i++) {
 
-            for(int coin:coins){
+            for(int j=coins[i];j<totalWays+1;j++){
 
-                if(numberOfWays[i]<=coin){
-
-
-
-                    numberOfWays[i] = numberOfWays[i] + (numberOfWays[i-coin]);
-
-                }
+                    numberOfWays[i] = numberOfWays[i] + (numberOfWays[i-coins[i]]);
 
             }
-
         }
 
         System.out.println(Arrays.toString(numberOfWays));
