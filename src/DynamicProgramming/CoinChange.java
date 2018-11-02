@@ -1,5 +1,7 @@
 package DynamicProgramming;
 
+import java.util.Arrays;
+
 public class CoinChange {
 
     public static void main(String[] args) {
@@ -12,12 +14,33 @@ public class CoinChange {
     }
 
     private static int makeChange(int[] coins, int total) {
-        int ways = 0;
+        int totalWays = 0;
 
         int[] numberOfWays = new int[total+1];
+        System.out.println(Arrays.toString(numberOfWays));
+
+        numberOfWays[0] = 1;
+
+        for (int i=1;i<numberOfWays.length;i++) {
+
+            for(int coin:coins){
+
+                if(numberOfWays[i]<=coin){
 
 
 
-        return ways;
+                    numberOfWays[i] = numberOfWays[i] + (numberOfWays[i-coin]);
+
+                }
+
+            }
+
+        }
+
+        System.out.println(Arrays.toString(numberOfWays));
+
+        totalWays = numberOfWays[total];
+
+        return totalWays;
     }
 }
