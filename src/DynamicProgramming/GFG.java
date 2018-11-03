@@ -12,6 +12,7 @@ public class GFG {
                 return 0;
 
             if ((numberOfCoins < 1) && (target > 0))
+
                 return 0;
 
             int reducedCoins = numberOfCoins-1;
