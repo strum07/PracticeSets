@@ -75,15 +75,7 @@ public class SortedSearch {
             return sortedArray.length;
         }
 
-        List<Integer> list = Arrays.stream(sortedArray).boxed().collect(Collectors.toList());
-
-        HashSet<Integer> set = new HashSet<>(list);
-
-
-        if(set.isEmpty()){
-            return 0;
-        }
-
+        HashSet<Integer> rangeSet = new HashSet<>();
 
         int count = 0;
         int start = 0;
@@ -91,6 +83,7 @@ public class SortedSearch {
 
         while(start<end){
             int mid= start + (end-start)/2;
+
 
             if(sortedArray[mid]<key){
                 count = mid;
